@@ -1,0 +1,38 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+#btn{
+    display: flex;
+    align-items: end;
+    width: 400px;
+    justify-content: center;
+    padding: 2rem;
+    margin-top: -0.1rem;
+    background-color: grey;
+}
+
+#btn-meio{
+    display: flex;
+    flex-direction: column;
+}
+
+
+button{
+    width: 3.5rem;
+    height: 3rem;
+   border: 1px solid rgb(43, 47, 51);
+    background-color: grey;
+}
+
+
+
