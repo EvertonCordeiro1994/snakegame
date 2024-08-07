@@ -1,4 +1,4 @@
-let xSnack = 200, ySnack = 200, xFood = 0, yFood = 0, direcaoX = 0, direcaoY = 0, ponto = 0, recorde;
+let xSnake = 200, ySnake = 200, xFood = 0, yFood = 0, direcaoX = 0, direcaoY = 0, ponto = 0, recorde;
 
 // Função para criar comida em posições aleatórias
 const criarComida = () => {
@@ -9,7 +9,15 @@ const criarComida = () => {
 // Função para contar pontos e atualizar a pontuação na tela
 const contarPonto = () => {
   ponto += 1;
+  
   document.querySelector('#pontuacao').innerText = `00${ponto}`;
+  if (ponto >= 10 && ponto <=99 ) {
+    document.querySelector('#pontuacao').innerText = `0${ponto}`;
+  } 
+  if (ponto >=100 ) {
+    document.querySelector('#pontuacao').innerText = ponto;
+  } 
+
 }
 
 // Função para verificar e atualizar o recorde
@@ -21,7 +29,15 @@ const addRecorde = () => {
     recorde = ponto;
   }
 
-  document.querySelector('#recorde').innerText = `00${recorde}`;
+  if (recorde <= 9) {
+    document.querySelector('#recorde').innerText = `00${recorde}`;
+  }
+
+  if (recorde >= 10 && recorde <= 99) {
+    document.querySelector('#recorde').innerText = `0${recorde}`;
+  } else {
+    document.querySelector('#recorde').innerText = recorde;
+  }
 }
 
 function setup() {
@@ -82,17 +98,17 @@ function draw() {
   circle(xFood, yFood, 15);
 
   fill('#F80A0A');
-  square(xSnack, ySnack, 15);
+  square(xSnake , ySnake, 15);
 
-  xSnack += direcaoX;
-  ySnack += direcaoY;
+  xSnake += direcaoX;
+  ySnake += direcaoY;
 
   // Verifica colisão com as bordas do canvas
-  if (xSnack <= 0 || xSnack >= 385 || ySnack <= 0 || ySnack >= 385) {
+  if (xSnake <= 0 || xSnake >= 385 || ySnake <= 0 || ySnake >= 385) {
     addRecorde();
     alert('Game Over!');
-    xSnack = 200;
-    ySnack = 200;
+    xSnake = 200;
+    ySnake = 200;
     direcaoX = 0;
     direcaoY = 0;
     ponto = 0;
@@ -101,8 +117,7 @@ function draw() {
   }
 
   // Verifica colisão com a comida
-  if (xSnack <= xFood + 15 && xSnack + 15 >= xFood && ySnack <= yFood + 15 && ySnack + 15 >= yFood) {
-    console.log('comeu');
+  if (xSnake <= xFood + 15 && xSnake + 15 >= xFood && ySnake <= yFood + 15 && ySnake + 15 >= yFood) {
     criarComida();
     contarPonto();
   }

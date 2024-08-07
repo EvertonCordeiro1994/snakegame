@@ -1,3 +1,12 @@
+@font-face {
+    font-family: 'texto';
+    src: url('./fonts/Daydream.ttf');
+}
+@font-face {
+    font-family: 'numero';
+    src: url('./fonts/Minecraft.ttf');
+}
+
 *{
     margin: 0;
     padding: 0;
@@ -13,22 +22,29 @@ body{
 
 #score{
     width: 400px;
+    height: 2rem;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     order: 1;
+}
+
+.texto{
+    font-family: 'texto';
+    font-size: 0.7rem;
+}
+
+.numero{
+    font-family: 'numero';
+    font-size: 1.5rem;
 }
 
 main{
     order: 2;
 }
 
-
-
-
-
-
 #btn{
-    display: flex;
+    display: none;
     align-items: end;
     width: 400px;
     justify-content: center;
@@ -42,7 +58,6 @@ main{
     display: flex;
     flex-direction: column;
 }
-
 
 button{
     width: 3.5rem;
