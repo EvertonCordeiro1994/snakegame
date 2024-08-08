@@ -1,11 +1,28 @@
-let xSnake = 200, ySnake = 200, xFood = 0, yFood = 0, direcaoX = 0, direcaoY = 0, ponto = 0, tamanhoDocorpo = 1, xTamanho = 15, yTamanho = 15, recorde;
+let xSnake = 200, 
+    ySnake = 200, 
+    xFood = 0, 
+    yFood = 0, 
+    direcaoX = 0, 
+    direcaoY = 0, 
+    ponto = 0, 
+    tamanhoDocorpo = 15, 
+    recorde;
+
+const cobra = [{ x: 200, y: 200 }];
 
 // Função para criar comida em posições aleatórias
 const criarComida = () => {
-  xFood = Math.floor(Math.random() * 381);
-  yFood = Math.floor(Math.random() * 381);
+  xFood = Math.floor(Math.random() * (width - tamanhoDocorpo));
+  yFood = Math.floor(Math.random() * (width - tamanhoDocorpo));
 }
 
+// Função para desenhar o corpo da cobra
+const corpoSnake = () => {
+  cobra.forEach((position, index) => {
+    fill(index == cobra.length - 1 ? 'blue' : 'green');
+    rect(position.x, position.y, tamanhoDocorpo, tamanhoDocorpo);
+  });
+}
 
 // Função para contar pontos e atualizar a pontuação na tela
 const contarPonto = () => {
@@ -40,6 +57,7 @@ const addRecorde = () => {
 
 function setup() {
   createCanvas(400, 400);
+  frameRate(10)
   criarComida();
   addRecorde();
 
@@ -47,29 +65,21 @@ function setup() {
   function irParaCima() {
     direcaoY = -1;
     direcaoX = 0;
-    yTamanho+=tamanhoDocorpo
-    xTamanho = 15
   }
 
   function irParaBaixo() {
     direcaoY = 1;
     direcaoX = 0;
-    yTamanho+=tamanhoDocorpo
-    xTamanho = 15
   }
 
   function irParaEsquerda() {
     direcaoX = -1;
     direcaoY = 0;
-    xTamanho+=tamanhoDocorpo
-    yTamanho = 15
   }
 
   function irParaDireita() {
     direcaoX = 1;
     direcaoY = 0;
-    xTamanho+=tamanhoDocorpo
-    yTamanho = 15
   }
 
   // Adiciona eventos aos botões para mudar a direção do movimento
@@ -98,39 +108,40 @@ function setup() {
 }
 
 function draw() {
-
-
   background('#0EA6E6');
 
   fill('#A020F0');
   circle(xFood, yFood, 15);
 
   fill('#F80A0A');
-  rect(xSnake, ySnake,xTamanho, yTamanho);
+  corpoSnake();
 
-  xSnake += direcaoX;
-  ySnake += direcaoY;
+  // Movimenta a cobra
+  xSnake += direcaoX * tamanhoDocorpo;
+  ySnake += direcaoY * tamanhoDocorpo;
+
+  cobra.push({ x: xSnake, y: ySnake });
+  if (cobra.length > ponto + 1) {
+    cobra.shift();
+  }
 
   // Verifica colisão com as bordas do canvas
-  if (xSnake <= 0 || xSnake >= 385 || ySnake <= 0 || ySnake >= 385) {
+  if (xSnake < 0 || xSnake > width - tamanhoDocorpo || ySnake < 0 || ySnake > height - tamanhoDocorpo) {
     addRecorde();
     xSnake = 200;
     ySnake = 200;
     direcaoX = 0;
     direcaoY = 0;
     ponto = 0;
-    xTamanho = 15;
-    yTamanho = 15;
-    tamanhoDocorpo = 1
+    cobra.splice(1);
     document.querySelector('#pontuacao').innerText = `00${ponto}`;
     criarComida();
   }
 
   // Verifica colisão com a comida
   if (xSnake < xFood + 15 && xSnake + 15 > xFood && ySnake < yFood + 15 && ySnake + 15 > yFood) {
-    tamanhoDocorpo++;
-    criarComida();
     contarPonto();
-    tamanhoDocorpo += 15
+    criarComida();
+    cobra.push({ x: xSnake, y: ySnake });
   }
 }
