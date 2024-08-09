@@ -66,4 +66,8 @@ button{
     background-color: grey;
 }
 
+@media (max-width: 700px){
+    #btn{display: flex;}
+}
+
 
